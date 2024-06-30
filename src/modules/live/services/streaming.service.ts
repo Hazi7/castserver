@@ -13,8 +13,9 @@ export class StreamingService {
             '-i', 'pipe:0',
             '-tune', 'zerolatency',
             '-c', 'copy',
+            '-buffer_size', '500000',
             '-f', 'flv',
-            `rtmp://118.31.245.3/live/${roomId}`
+            `pipe:1`
         ]);
 
         ffmpeg.stderr.on('data', (data) => {
@@ -29,5 +30,10 @@ export class StreamingService {
         if (processInfo) {
             processInfo.stdin.write(mediaData);
         }
+    }
+
+    async getStreamingUrl(roomId: string) {
+        const processInfo = this.ffmpegProcess.get(roomId);
+        return processInfo.ffmpeg.stdout;
     }
 }
