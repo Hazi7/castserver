@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "118.31.245.3",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "Hazi's Server",
+            "username": "root",
+            "password": "1sxlo00OL",
+            "database": "webcaster"
+        }
+    ],
+    "cSpell.words": [
+        "mjml"
+    ]
+}
