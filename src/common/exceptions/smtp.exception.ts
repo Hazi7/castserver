@@ -1,10 +1,13 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { SmtpCodeEnum } from "src/constants/smtp-code.constant";
+import type { SMTPError } from "nodemailer/lib/smtp-connection";
+import { SmtpStatusEnum, SmtpStatusMessages } from "../constants/smtp-status.constant";
 
 export class SmtpException extends HttpException {
-    smtpError: string;
-    constructor(message: string, status: keyof typeof HttpStatus, errorType: number) {
-        super(message, HttpStatus[status]);
-        this.smtpError = SmtpCodeEnum[errorType];
+    constructor(exception: SMTPError) {
+
+        const status = HttpStatus.INTERNAL_SERVER_ERROR;
+        const message = SmtpStatusMessages[exception.responseCode] || 'SMTP服务器异常'
+
+        super(message, status);
     }
 }

@@ -2,8 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
-import { AllExceptionsFilter } from './common/filters/all.filter';
-import { ValidationPipe } from '@nestjs/common';
+import { AllExceptionsFilter } from './common/filters/all-exception.filter';
+import { HttpException, ValidationPipe } from '@nestjs/common';
 
 (async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -16,6 +16,7 @@ import { ValidationPipe } from '@nestjs/common';
         .setTitle('Webcaster')
         .setDescription('')
         .setVersion('1.0')
+        .addBearerAuth()
         .build();
 
     const document = SwaggerModule.createDocument(app, config);
@@ -26,3 +27,8 @@ import { ValidationPipe } from '@nestjs/common';
 
     await app.listen(81);
 })();
+
+process.on('uncaughtException', (err) => {
+    console.log('🚀 ~ process.on ~ err:', err);
+    // throw new HttpException(err.message, 500);
+});

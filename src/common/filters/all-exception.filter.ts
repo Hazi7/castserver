@@ -1,6 +1,7 @@
 import { Catch, HttpException, HttpStatus, type ArgumentsHost, ExceptionFilter } from "@nestjs/common";
 import type { FastifyRequest } from "fastify";
 import type { FastifyReply } from "fastify/types/reply";
+import { ResponseModel } from "../models/response.model";
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -13,10 +14,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
             ? exception.getStatus()
             : HttpStatus.INTERNAL_SERVER_ERROR;
         
-        response.code(status).send({
-            statusCode: status,
-            timestamp: new Date().toISOString(),
-            path: request.url,
-        });
+        response.status(status).send(ResponseModel.error(status, '服务器内部错误', request.url, 'INTERNAL_SERVER_ERROR'))
     }
 }

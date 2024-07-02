@@ -1,13 +1,18 @@
 import { Module } from "@nestjs/common";
 import { AccountService } from "./services/account.service";
 import { AccountController } from "./controllers/account.controller";
+import { EmailService } from "../../shared/mailer/email.service";
 import { PrismaModule } from "src/prisma/prisma.module";
-import { EmailController } from "./controllers/email.controller";
-import { EmailService } from "./services/email.service";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [AccountController, EmailController],
+    imports: [
+        PrismaModule,
+        JwtModule.register({
+            secret: 'your-secret-key',
+        })
+    ],
+    controllers: [AccountController],
     providers: [AccountService, EmailService]
 })
 
