@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { generateHtml } from 'src/common/utils/mjml.util';
 import { JwtService } from '@nestjs/jwt';
@@ -35,8 +35,15 @@ export class EmailService {
     }
     
     async sendVerificationCode(email: string) {
-        const token = this.jwtService.sign(email);
-        const url = `http://localhost:81/users/confirm-authentication/${token}`
+        const token = this.jwtService.sign(
+            {
+                email: email
+            }, 
+            {
+                secret: process.env.JWT_SECRET,
+            }
+        );
+        const url = `http://localhost:81/users/confirm-authentication?token=${token}`
 
         const mailOptions = {
             from: `Webcaster<${process.env.EMAIL_USER}>`, // 发件人
@@ -50,7 +57,13 @@ export class EmailService {
         })
     }
 
-    async verifyCode() {
-        
+    async verifyCode(token: string) {
+        try {
+            return await this.jwtService.verifyAsync(token, {
+                secret: process.env.JWT_SECRET,
+            });
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
     }
 }

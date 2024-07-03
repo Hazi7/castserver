@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { AccountService } from "./services/account.service";
-import { AccountController } from "./controllers/account.controller";
+import { AuthService } from "./auth.service";
+import { AuthController } from "./auth.controller";
 import { EmailService } from "../../shared/mailer/email.service";
 import { PrismaModule } from "src/prisma/prisma.module";
 import { JwtModule } from "@nestjs/jwt";
@@ -12,8 +12,8 @@ import { JwtModule } from "@nestjs/jwt";
             secret: 'your-secret-key',
         })
     ],
-    controllers: [AccountController],
-    providers: [AccountService, EmailService]
+    controllers: [AuthController],
+    providers: [AuthService, EmailService]
 })
 
 export class AuthModule {}

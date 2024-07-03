@@ -16,7 +16,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const req = ctx.getRequest<FastifyRequest>();
         
         const statusCode = exception.getStatus();
-        const message = exception.message;
+        const exceptionRes: any = exception.getResponse();
+
+        const message = typeof exceptionRes?.message === 'string' ? exceptionRes.message : exceptionRes.message[0];
         
         const resModel = ResponseModel.error(statusCode, message, req.url, exception.name)
 

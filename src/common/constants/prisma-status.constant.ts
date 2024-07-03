@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client"
+
 export enum PrismaStatusEnum {
     // Database Errors
     DatabaseConnectionError = 'P1000',
@@ -93,3 +95,10 @@ export const PrismaStatusMessages = {
     [PrismaStatusEnum.ClientConnectionEnqueueTimeoutError]: '等待队列中获取数据库连接超时，这意味着连接池中的所有连接都在使用且达到了最大等待时间，请考虑增加连接池大小或优化数据库操作以减少连接占用时间。',
     [PrismaStatusEnum.ClientConnectionPoolAcquireTimeoutError]: '从连接池中获取数据库连接超时，表明在指定时间内没有可用连接，建议检查连接是否正常释放、增加连接池容量或优化数据库访问频次以减轻负载。'
 }
+
+export type PrismaClientError =
+  | Prisma.PrismaClientKnownRequestError
+  | Prisma.PrismaClientInitializationError
+  | Prisma.PrismaClientRustPanicError
+  | Prisma.PrismaClientValidationError
+  | Prisma.PrismaClientUnknownRequestError;
