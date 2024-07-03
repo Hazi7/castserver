@@ -1,15 +1,15 @@
 import { Controller, Post, Body, Query, Param, HttpStatus, Req, Res, BadRequestException, Get, HttpException, UseFilters } from "@nestjs/common";
-import { AccountService } from "../services/account.service";
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
-import { RegisterUserDto } from "../dto/register.dto";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { ResponseModel } from "src/common/models/response.model";
 import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
 import { EmailService } from "src/shared/mailer/email.service";
 import { SmtpException } from "src/common/exceptions/smtp.exception";
+import { RegisterUserDto } from "./dto/register.dto";
+import { AccountService } from "./account.service";
 
-@ApiTags('users')
-@Controller('users')
+@ApiTags('账户控制器')
+@Controller('account')
 @UseFilters(HttpExceptionFilter)
 export class AccountController {
     constructor(
@@ -28,8 +28,11 @@ export class AccountController {
         @Req() req: FastifyRequest, 
         @Res() res: FastifyReply
     ) {
+
+        const { email } =  registerUserDot;
         const defaultUsername = registerUserDot.email.split('@')[0];
-        const existedUser = await this.accountService.findUserByEmail(registerUserDot.email);
+        
+        const existedUser = await this.accountService.findUserByUniqueField({ email });
 
         if (existedUser) {
             if (existedUser.isVerified) {
@@ -43,6 +46,7 @@ export class AccountController {
             const user = await this.accountService.createUser({
                 email: registerUserDot.email,
                 username: `caster-${defaultUsername}`,
+                password: registerUserDot.password
             })
 
             if (user) {
@@ -56,35 +60,10 @@ export class AccountController {
         }
     }
 
-    @Get('confirm-authentication/:token')
-    @ApiOperation({
-         summary: '激活账号' 
-    })
-    async confirmAuthentication(
-        @Param('token') token: string, 
-        @Req() req: FastifyRequest, 
-        @Res() res: FastifyReply
-    ) {
-        const email = await this.accountService.verifyCode(token);
-        const user = await this.accountService.findUserByEmail(email);
+    @Post('reset-password')
+    @ApiOperation({ summary: '重置密码' })
+    async resetPassword() {
 
-        if (!user) {
-            throw new BadRequestException('🎗️该邮箱不存在关联账户，请先创建账户🎗️'); 
-        }
-
-        if (user.isVerified) {
-            throw new BadRequestException('🎐该邮箱关联账户已认证，请登录🎐');
-        }
-
-        const updatedUser = await this.accountService.updateUserVerificationStatus(email);
-
-        updatedUser && res.status(HttpStatus.OK).send(ResponseModel.success(HttpStatus.OK, '❄️注册成功, enjoy it!❄️', req.url));
-    }
-
-    @Post('login')
-    @ApiOperation({ summary: '登录' })
-    async login() {
-        
     }
 
 

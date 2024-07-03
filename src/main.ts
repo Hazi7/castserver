@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AllExceptionsFilter } from './common/filters/all-exception.filter';
 import { HttpException, ValidationPipe } from '@nestjs/common';
+import * as fs from 'fs';
 
 (async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -20,6 +21,8 @@ import { HttpException, ValidationPipe } from '@nestjs/common';
         .build();
 
     const document = SwaggerModule.createDocument(app, config);
+    fs.writeFileSync('./swagger.json', JSON.stringify(document));
+
     SwaggerModule.setup('swagger', app, document);
 
     app.useGlobalPipes(new ValidationPipe());

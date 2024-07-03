@@ -6,6 +6,7 @@ import { ResponseModel } from "../models/response.model";
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
     catch(exception: unknown, host: ArgumentsHost) {
+        console.log('🚀 ~ AllExceptionsFilter ~ exception:', exception);
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<FastifyReply>();
         const request = ctx.getRequest<FastifyRequest>();
