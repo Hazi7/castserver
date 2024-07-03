@@ -1,12 +1,10 @@
-import { Controller, Post, Body, Query, Param, HttpStatus, Req, Res, BadRequestException, Get, HttpException, UseFilters } from "@nestjs/common";
+import { Controller, Post, Body, Query, HttpStatus, Req, Res, BadRequestException, Get, HttpException, UseFilters } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
-import { RegisterUserDto } from "../account/dto/register.dto";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { ResponseModel } from "src/common/models/response.model";
 import { HttpExceptionFilter } from "src/common/filters/http-exception.filter";
 import { EmailService } from "src/shared/mailer/email.service";
-import { SmtpException } from "src/common/exceptions/smtp.exception";
 import { LoginDto } from "./dto/login.dto";
 
 @ApiTags('认证控制器')
