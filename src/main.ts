@@ -3,8 +3,11 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { FastifyAdapter, type NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AllExceptionsFilter } from './common/filters/all-exception.filter';
-import { HttpException, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
+import fastifyCookie from '@fastify/cookie';
+import { UWebSocketAdapter } from './common/adapters/uwebsocket.adapter';
+import { WsAdapter } from '@nestjs/platform-ws';
 
 (async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -12,6 +15,13 @@ import * as fs from 'fs';
         new FastifyAdapter(),
         { cors: true }
     );
+
+    app.useWebSocketAdapter(new UWebSocketAdapter(app));
+
+    //@ts-ignore
+    await app.register(fastifyCookie, {
+        secret: 'my-secret', // for cookies signature
+    });
 
     const config = new DocumentBuilder()
         .setTitle('Webcaster')

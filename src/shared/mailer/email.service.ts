@@ -43,7 +43,7 @@ export class EmailService {
                 secret: process.env.JWT_SECRET,
             }
         );
-        const url = `http://localhost:81/users/confirm-authentication?token=${token}`
+        const url = `http://localhost:81/auth/confirm-authentication?token=${token}&redirectUrl=/auth/login`
 
         const mailOptions = {
             from: `Webcaster<${process.env.EMAIL_USER}>`, // 发件人

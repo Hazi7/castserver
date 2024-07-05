@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AccountController } from './account.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
+import { PrismaModule } from 'prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 import { EmailService } from 'src/shared/mailer/email.service';
 import { AccountService } from './account.service';

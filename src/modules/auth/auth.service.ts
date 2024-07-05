@@ -2,7 +2,7 @@ import { BadRequestException, HttpException, HttpStatus, Injectable } from "@nes
 import { JwtService } from "@nestjs/jwt";
 import { Prisma, PrismaClient, type User } from "@prisma/client";
 import { PrismaException } from "src/common/exceptions/prisma.exception";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "prisma/prisma.service";
 import * as bcrypt from 'bcrypt';
 import { isEmail, isMobilePhone } from "class-validator";
 
@@ -42,14 +42,12 @@ export class AuthService {
     }
 
     async updateUserByUniqueField(where: Prisma.UserWhereUniqueInput, data: Prisma.UserUpdateInput) {
-        console.log('🚀 ~ AccountService ~ updateUserByUniqueField ~ where:', where);
         try {
             return await this.prismaService.user.update({
                 where,
                 data
             })
         } catch (error) {
-            console.log('🚀 ~ AccountService ~ updateUserByUniqueField ~ error:', error);
             throw new PrismaException(error);
         }
     }
