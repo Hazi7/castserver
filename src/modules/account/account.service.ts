@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Prisma } from "@prisma/client";
 import { PrismaException } from "src/common/exceptions/prisma.exception";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "prisma/prisma.service";
 import * as bcrypt from 'bcrypt';
 
 @Injectable()

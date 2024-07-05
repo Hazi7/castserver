@@ -1,4 +1,4 @@
-import { Catch, HttpException, type ArgumentsHost, ExceptionFilter, BadRequestException } from "@nestjs/common";
+import { Catch, HttpException, type ArgumentsHost, ExceptionFilter, BadRequestException, NotFoundException } from "@nestjs/common";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { ResponseModel } from "../models/response.model";
 import { PrismaException } from "../exceptions/prisma.exception";
@@ -6,7 +6,8 @@ import { PrismaException } from "../exceptions/prisma.exception";
 @Catch(
     HttpException,
     PrismaException,
-    BadRequestException
+    BadRequestException,
+    NotFoundException
 )
 export class HttpExceptionFilter implements ExceptionFilter {
     catch(exception: HttpException, host: ArgumentsHost) {
