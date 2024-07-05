@@ -55,6 +55,7 @@
     "passport-github2": "^0.1.12",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
+    "socket.io": "^4.7.5",
     "uuid": "^10.0.0",
     "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.44.0"
   },
