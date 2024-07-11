@@ -11,6 +11,7 @@ import { PrismaException } from "../exceptions/prisma.exception";
 )
 export class HttpExceptionFilter implements ExceptionFilter {
     catch(exception: HttpException, host: ArgumentsHost) {
+    console.log('🚀 ~ HttpExceptionFilter ~ exception:', exception);
 
         const ctx = host.switchToHttp();
         const res = ctx.getResponse<FastifyReply>();

@@ -7,7 +7,6 @@ import { ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs';
 import fastifyCookie from '@fastify/cookie';
 import { UWebSocketAdapter } from './common/adapters/uwebsocket.adapter';
-import { WsAdapter } from '@nestjs/platform-ws';
 
 (async function bootstrap() {
     const app = await NestFactory.create<NestFastifyApplication>(
@@ -31,17 +30,16 @@ import { WsAdapter } from '@nestjs/platform-ws';
         .build();
 
     const document = SwaggerModule.createDocument(app, config);
-    fs.writeFileSync('./swagger.json', JSON.stringify(document));
+    // fs.writeFileSync('./swagger.json', JSON.stringify(document));
 
     SwaggerModule.setup('swagger', app, document);
 
     app.useGlobalPipes(new ValidationPipe());
     app.useGlobalFilters(new AllExceptionsFilter());
 
-    await app.listen(81);
+    await app.listen(82);
 })();
 
 process.on('uncaughtException', (err) => {
     console.log('🚀 ~ process.on ~ err:', err);
-    // throw new HttpException(err.message, 500);
 });

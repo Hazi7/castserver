@@ -63,7 +63,7 @@ export const PrismaStatusMessages = {
     [PrismaStatusEnum.ReadOnlyFieldViolation]: '试图修改只读字段，请检查您的更新操作。',
     [PrismaStatusEnum.InvalidRecordIdInRelationalField]: '关联字段中包含的记录ID无效，请提供正确的ID。',
     [PrismaStatusEnum.RecordDoesNotExist]: '尝试操作的记录不存在，请检查查询条件或数据完整性。',
-    [PrismaStatusEnum.InsufficientPrivilegeError]: '当前用户权限不足，无法执行该操作，请联系管理员提升权限。',
+    [PrismaStatusEnum.InsufficientPrivilegeError]: '数据库原始查询失败',
     [PrismaStatusEnum.MissingRequiredArgument]: '缺少必要的参数，请检查查询以确保所有必需参数都已提供。',
     [PrismaStatusEnum.ArgumentValueOutOfRange]: '参数值超出允许范围，请检查并提供有效值。',
     [PrismaStatusEnum.ArgumentValueTooBig]: '参数值过大，超过数据库字段限制，请减小值的大小。',
